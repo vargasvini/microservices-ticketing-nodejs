@@ -1,4 +1,3 @@
-import { IError } from "../interfaces/error-interface";
 import { CustomError } from "./custom-error";
 
 export class DatabaseConnectionError extends CustomError {
