@@ -1,14 +1,14 @@
 import express, {Request, Response, NextFunction} from 'express';
-import { body, validationResult } from 'express-validator';
+import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { BadRequestError } from '../errors/bad-request-error';
-import { RequestValidationError } from '../errors/request-validation-error';
 import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/user-schema';
+import { Routes } from './routes-constants';
 
 const router = express.Router();
 
-router.post('/api/users/signup', [
+router.post(Routes.SIGN_UP, [
   body('email')
     .isEmail()
     .withMessage('Email must be valid'),
@@ -23,7 +23,6 @@ async (req: Request, res: Response) => {
     const existingUser = await User.findOne({ email });
 
     if(existingUser){
-      console.log('Email in use');
       throw new BadRequestError('Email already in use');
     }
 
