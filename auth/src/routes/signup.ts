@@ -1,8 +1,9 @@
-import express, {Request, Response} from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import { body, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import { BadRequestError } from '../errors/bad-request-error';
 import { RequestValidationError } from '../errors/request-validation-error';
+import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/user-schema';
 
 const router = express.Router();
@@ -15,40 +16,36 @@ router.post('/api/users/signup', [
     .trim()
     .isLength({min: 4, max:20})
     .withMessage('Pass must be between 4 and 20 characters!')
-], async (req: Request, res: Response) => {
+], 
+validateRequest,
+async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+    const existingUser = await User.findOne({ email });
 
-  const errors = validationResult(req);
+    if(existingUser){
+      console.log('Email in use');
+      throw new BadRequestError('Email already in use');
+    }
 
-  if(!errors.isEmpty()){
-    throw new RequestValidationError(errors.array());
+    const user = User.build({ email, password });
+    await user.save();
+
+    //Generate JWT
+    const userJwt = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+      },
+      process.env.JWT_KEY!
+    );
+
+    //Store it on session object
+    req.session = {
+      jwt: userJwt
+    };
+
+    res.status(201).send(user);
   }
-
-  const { email, password } = req.body;
-  const existingUser = await User.findOne({ email });
-
-  if(existingUser){
-    console.log('Email in use');
-    throw new BadRequestError('Email already in use');
-  }
-
-  const user = User.build({ email, password });
-  await user.save();
-
-  //Generate JWT
-  const userJwt = jwt.sign(
-    {
-      id: user.id,
-      email: user.email,
-    },
-    process.env.JWT_KEY!
-  );
-
-  //Store it on session object
-  req.session = {
-    jwt: userJwt
-  };
-
-  res.status(201).send(user);
-});
+);
 
 export { router as signupRouter };
