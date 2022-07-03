@@ -20,5 +20,10 @@ interface IUserModel extends mongoose.Model<IUserDocument>{
     build(attrs: IUserAttrs): IUserDocument;
 }
 
+interface IUserPayload {
+    id: string,
+    email: string
+}
 
-export { IUserAttrs, IUserModel, IUserDocument };
+
+export { IUserAttrs, IUserModel, IUserDocument, IUserPayload };
