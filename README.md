@@ -1,4 +1,4 @@
-# ticketing-microservices-nodejs
+# microservices-ticketing-nodejs
 
 ### TS not globlal
 
