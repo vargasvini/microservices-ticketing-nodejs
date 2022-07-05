@@ -1,8 +1,7 @@
 import express, {Request, Response, NextFunction} from 'express';
 import { body } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import { BadRequestError } from '../errors/bad-request-error';
-import { validateRequest } from '../middlewares/validate-request';
+import { BadRequestError, validateRequest } from '@goustiee-org/common';
 import { User } from '../models/user-schema';
 import { Routes } from './routes-constants';
 

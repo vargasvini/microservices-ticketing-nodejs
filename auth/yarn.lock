@@ -291,6 +291,19 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
+"@goustiee-org/common@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@goustiee-org/common/-/common-1.0.4.tgz#6a17aacaa06e6fb32e00dcf3a511151ca65169da"
+  integrity sha512-mTE3cpP0d+JWa1tP6f8/zbw08JUMFPc4EBMyPHPJIjgQPaDcA8EUbec/u6p434wpK/O9fg6bsSGeD0sO2UnTOA==
+  dependencies:
+    "@types/cookie-session" "^2.0.44"
+    "@types/express" "^4.17.13"
+    "@types/jsonwebtoken" "^8.5.8"
+    cookie-session "^2.0.0"
+    express "^4.18.1"
+    express-validator "^6.14.2"
+    jsonwebtoken "^8.5.1"
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
@@ -657,7 +670,7 @@
     "@types/qs" "*"
     "@types/range-parser" "*"
 
-"@types/express@*", "@types/express@^4.17.12":
+"@types/express@*", "@types/express@^4.17.12", "@types/express@^4.17.13":
   version "4.17.13"
   resolved "https://registry.npmjs.org/@types/express/-/express-4.17.13.tgz"
   integrity sha512-6bSZTPaTIACxn48l50SR+axgrqm6qXFIxrdAKaG6PaJk3+zuUr35hBlgT7vOmJcum+OEaIBLtHV/qloEAFITeA==
@@ -1494,7 +1507,7 @@ express-validator@^6.14.2:
     lodash "^4.17.21"
     validator "^13.7.0"
 
-express@^4.17.1:
+express@^4.17.1, express@^4.18.1:
   version "4.18.1"
   resolved "https://registry.npmjs.org/express/-/express-4.18.1.tgz"
   integrity sha512-zZBcOX9TfehHQhtupq57OF8lFZ3UZi08Y97dwFCkD8p9d/d2Y3M+ykKcwaMDEL+4qyUolgBDX6AblpR3fL212Q==

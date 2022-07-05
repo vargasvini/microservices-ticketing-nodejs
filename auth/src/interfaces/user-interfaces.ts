@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 // An interface that describes the porperties
@@ -20,10 +21,5 @@ interface IUserModel extends mongoose.Model<IUserDocument>{
     build(attrs: IUserAttrs): IUserDocument;
 }
 
-interface IUserPayload {
-    id: string,
-    email: string
-}
 
-
-export { IUserAttrs, IUserModel, IUserDocument, IUserPayload };
+export { IUserAttrs, IUserModel, IUserDocument };
