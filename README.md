@@ -1,32 +1,33 @@
-# TS not globlal
+# ticketing-microservices-nodejs
+
+### TS not globlal
 
 npx -p typescript tsc --init
 
-# test packages
+#### test packages
 
 yarn add --save-dev @types/jest @types/supertest jest ts-jest supertest mongodb-memory-server
 
-# ticketing-nodejs
-
+### Create secret to share/access between containers
 kubectl create secret generic jwt-secret --from-literal=JWT_KEY=????
 kubectl get secrets
 
-# In case of errors
+### In case of errors
 
 kubectl describe pod {POD_ID}
 
-# NPM COMMON PACKAGE
+### NPM COMMON PACKAGE
 
-# The common library will be written as TS and published as JS (to avoid compatibility problems)
+### The common library will be written as TS and published as JS (to avoid compatibility problems)
 
-# Increment version: 1.0.1
+### Increment version: 1.0.1
 
 npm version patch
 npm run build
 npm login
 npm publish --access public
 
-# K8s inspect files
+### K8s inspect files
 
 kubectl get pods
 kubectl exec -it auth-depl-69fb49cf4b-7j6t8 sh
