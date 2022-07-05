@@ -1,4 +1,4 @@
-import { IError } from "../../../auth/src/interfaces/error-interface";
+import { IError } from "../interfaces/error-interface";
 
 export abstract class CustomError extends Error {
     abstract statusCode: number;

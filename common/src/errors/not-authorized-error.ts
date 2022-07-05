@@ -1,4 +1,4 @@
-import { IError } from "../../../auth/src/interfaces/error-interface";
+import { IError } from "../interfaces/error-interface";
 import { CustomError } from "./custom-error";
 
 export class NotAuthorizedError extends CustomError {
