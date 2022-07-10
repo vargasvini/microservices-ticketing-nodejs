@@ -32,8 +32,7 @@ cd build/common
 
 cat package.json
 
-
-## NPM Common package 
+## NPM Common package
 
 ### The common library will be written as TS and published as JS (to avoid compatibility problems)
 
@@ -47,3 +46,8 @@ npm login
 
 npm publish --access public
 
+### NATS
+
+### ONLY FOR TEST NATS OUTSIDE THE CLUSTER
+
+kubectl port-forward {NATS-POD-NAME} 4222:4222
