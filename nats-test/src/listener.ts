@@ -9,13 +9,33 @@ const client = nats.connect('ticketing', randomBytes(4).toString('hex'),{
 
 client.on('connect', ()=>{
     console.log('Listener connected to NATS');
-    const subscription = client.subscribe('ticket:created');
+    
+    //graceful shutdown
+    client.on('close', () => {
+        console.log('NATS connection closed!');
+        process.exit();
+    });
+
+    //ACK = acknowledgement
+    const options = client
+        .subscriptionOptions()
+        .setManualAckMode(true);
+    const subscription = client.subscribe('ticket:created', 'listener-queue-group');
+
     subscription.on('message', (msg: Message)=>{
         const data = msg.getData();
         if(typeof data === 'string'){
             const formattedData = JSON.parse(data);
             console.log(formattedData);
         }
+
+        //everything is fine
+        msg.ack();
     });
 });
 
+//graceful shutdown
+//SIGINT = INTERRUPTED SIGNAL
+//SIGTERM = TERMINATED SIGNAL
+process.on('SIGINT', () => client.close());
+process.on('SIGTERM', () => client.close());
