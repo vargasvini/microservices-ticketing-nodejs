@@ -19,8 +19,18 @@ client.on('connect', ()=>{
     //ACK = acknowledgement
     const options = client
         .subscriptionOptions()
-        .setManualAckMode(true);
-    const subscription = client.subscribe('ticket:created', 'listener-queue-group');
+        .setManualAckMode(true)
+        //send all events if it's the first time the service is online
+        .setDeliverAllAvailable()
+        //register all events that have already been processed
+        .setDurableName('listener-service');
+
+    const subscription = client.subscribe(
+        'ticket:created', 
+        //queue to send event to only one instance of the service
+        //also not to dump the event history from broker
+        'listener-queue-group',
+        options);
 
     subscription.on('message', (msg: Message)=>{
         const data = msg.getData();
