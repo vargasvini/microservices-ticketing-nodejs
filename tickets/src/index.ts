@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import { randomBytes } from 'crypto';
 
 import { app } from './app';
+import { natsWrapper } from './nats-wrapper';
 
 const start = async () => {
   if (!process.env.JWT_KEY) {
@@ -16,6 +18,23 @@ const start = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
+    
+    await natsWrapper.connect(
+      'ticketing', 
+      randomBytes(4).toString('hex'), 
+      'http://localhost:4222'
+    );
+
+    //graceful NATS shutdown
+    natsWrapper.client.on('close', () => {
+      console.log('NATS connection closed!');
+      process.exit();
+    });
+    //SIGINT = INTERRUPTED SIGNAL
+    //SIGTERM = TERMINATED SIGNAL
+    process.on('SIGINT', () => natsWrapper.client.close());
+    process.on('SIGTERM', () => natsWrapper.client.close());
+
     console.log('Connected to MongoDb');
   } catch (err) {
     console.error(err);
