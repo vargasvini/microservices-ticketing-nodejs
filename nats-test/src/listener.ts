@@ -1,5 +1,6 @@
-import nats, { Message } from 'node-nats-streaming';
+import nats from 'node-nats-streaming';
 import { randomBytes } from 'crypto';
+import { TicketCreatedListener } from './events/ticket-created.listener';
 console.clear();
 
 //stan
@@ -16,32 +17,7 @@ client.on('connect', ()=>{
         process.exit();
     });
 
-    //ACK = acknowledgement
-    const options = client
-        .subscriptionOptions()
-        .setManualAckMode(true)
-        //send all events if it's the first time the service is online
-        .setDeliverAllAvailable()
-        //register all events that have already been processed
-        .setDurableName('listener-service');
-
-    const subscription = client.subscribe(
-        'ticket:created', 
-        //queue to send event to only one instance of the service
-        //also not to dump the event history from broker
-        'listener-queue-group',
-        options);
-
-    subscription.on('message', (msg: Message)=>{
-        const data = msg.getData();
-        if(typeof data === 'string'){
-            const formattedData = JSON.parse(data);
-            console.log(formattedData);
-        }
-
-        //everything is fine
-        msg.ack();
-    });
+   new TicketCreatedListener(client).listen();
 });
 
 //graceful shutdown
