@@ -1,4 +1,4 @@
-export enum OrderStatus {
+export enum OrderStatusEnum {
     //When the order has been created
     //But the ticket has not been reserved
     Created = 'created',
